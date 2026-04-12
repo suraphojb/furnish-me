@@ -15,7 +15,7 @@ type Screen = 'upload' | 'results' | 'preferences' | 'cart' | 'confirmation' | '
 
 const STEPS = [
   { key: 'upload', label: 'Upload' },
-  { key: 'results', label: 'Furniture List' },
+  { key: 'results', label: 'Product List' },
   { key: 'preferences', label: 'Preferences' },
   { key: 'cart', label: 'Shopping Cart' },
   { key: 'confirmation', label: 'Confirmation' },
@@ -27,6 +27,7 @@ export default function Home() {
     state,
     setImage,
     removeImage,
+    removeSuggestion,
     analyzeAllRooms,
     reset,
     hasAnyContent,
@@ -162,6 +163,7 @@ export default function Home() {
               onBack={() => setScreen('upload')}
               onReset={handleReset}
               onContinue={() => setScreen('preferences')}
+              onRemoveSuggestion={removeSuggestion}
             />
           </div>
         )}

@@ -7,6 +7,7 @@ import SuggestionItem from './SuggestionItem';
 interface RoomResultProps {
   room: RoomConfig;
   roomState: RoomState;
+  onRemoveSuggestion: (index: number) => void;
 }
 
 export function parsePriceRange(price: string): { low: number; high: number } {
@@ -27,7 +28,7 @@ export function getRoomTotal(roomState: RoomState): { low: number; high: number 
   );
 }
 
-export default function RoomResult({ room, roomState }: RoomResultProps) {
+export default function RoomResult({ room, roomState, onRemoveSuggestion }: RoomResultProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   if (!roomState.suggestions) return null;
@@ -81,14 +82,15 @@ export default function RoomResult({ room, roomState }: RoomResultProps) {
 
           {/* Suggestions — sorted by price descending */}
           <div className="space-y-2">
-            {[...roomState.suggestions]
+            {roomState.suggestions
+              .map((suggestion, originalIndex) => ({ suggestion, originalIndex }))
               .sort((a, b) => {
-                const priceA = parsePriceRange(a.estimatedPrice).high;
-                const priceB = parsePriceRange(b.estimatedPrice).high;
+                const priceA = parsePriceRange(a.suggestion.estimatedPrice).high;
+                const priceB = parsePriceRange(b.suggestion.estimatedPrice).high;
                 return priceB - priceA;
               })
-              .map((suggestion, i) => (
-              <SuggestionItem key={i} item={suggestion} index={i} />
+              .map(({ suggestion, originalIndex }, i) => (
+              <SuggestionItem key={originalIndex} item={suggestion} index={i} onRemove={() => onRemoveSuggestion(originalIndex)} />
             ))}
           </div>
         </div>

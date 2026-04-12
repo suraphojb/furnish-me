@@ -11,6 +11,7 @@ type Action =
   | { type: 'SET_LOADING'; roomId: RoomType; loading: boolean }
   | { type: 'SET_RESULTS'; roomId: RoomType; suggestions: RoomState['suggestions']; detectedItems?: string[] }
   | { type: 'SET_ERROR'; roomId: RoomType; error: string }
+  | { type: 'REMOVE_SUGGESTION'; roomId: RoomType; suggestionIndex: number }
   | { type: 'RESET' };
 
 const initialRoomState: RoomState = {
@@ -74,6 +75,15 @@ function reducer(state: AppState, action: Action): AppState {
           loading: false,
         },
       };
+    case 'REMOVE_SUGGESTION': {
+      const room = state[action.roomId];
+      if (!room.suggestions) return state;
+      const updated = room.suggestions.filter((_, i) => i !== action.suggestionIndex);
+      return {
+        ...state,
+        [action.roomId]: { ...room, suggestions: updated.length > 0 ? updated : null },
+      };
+    }
     case 'RESET':
       return createInitialState();
     default:
@@ -144,10 +154,15 @@ export function useRoomState() {
   const hasResults = ROOMS.some(r => state[r.id].suggestions !== null);
   const isLoading = ROOMS.some(r => state[r.id].loading);
 
+  const removeSuggestion = useCallback((roomId: RoomType, suggestionIndex: number) => {
+    dispatch({ type: 'REMOVE_SUGGESTION', roomId, suggestionIndex });
+  }, []);
+
   return {
     state,
     setImage,
     removeImage,
+    removeSuggestion,
     analyzeAllRooms,
     reset,
     hasAnyContent,

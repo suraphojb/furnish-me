@@ -8,9 +8,10 @@ interface ResultsViewProps {
   onBack: () => void;
   onReset: () => void;
   onContinue: () => void;
+  onRemoveSuggestion: (roomId: RoomType, index: number) => void;
 }
 
-export default function ResultsView({ state, onBack, onContinue }: ResultsViewProps) {
+export default function ResultsView({ state, onBack, onContinue, onRemoveSuggestion }: ResultsViewProps) {
   const roomsWithResults = ROOMS.filter(r => state[r.id].suggestions !== null);
 
   const grandTotal = roomsWithResults.reduce(
@@ -40,7 +41,7 @@ export default function ResultsView({ state, onBack, onContinue }: ResultsViewPr
       {/* Room Results — only rooms with uploads */}
       <div className="space-y-4">
         {roomsWithResults.map((room) => (
-          <RoomResult key={room.id} room={room} roomState={state[room.id]} />
+          <RoomResult key={room.id} room={room} roomState={state[room.id]} onRemoveSuggestion={(index) => onRemoveSuggestion(room.id, index)} />
         ))}
       </div>
 
