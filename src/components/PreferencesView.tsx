@@ -109,22 +109,22 @@ export default function PreferencesView({ state, onBack, onContinue }: Preferenc
                 }}
                 className={`relative p-5 rounded-2xl border-2 text-left transition-all duration-200
                   ${isSelected
-                    ? 'border-blue-500 bg-blue-50 shadow-md shadow-blue-100 scale-[1.02]'
-                    : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
+                    ? 'border-fuchsia-400 bg-fuchsia-50/50 shadow-md shadow-fuchsia-100 scale-[1.02]'
+                    : 'border-purple-100 bg-white/80 hover:border-purple-300 hover:shadow-sm'
                   }`}
               >
                 {isSelected && (
-                  <div className="absolute top-3 right-3 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                  <div className="absolute top-3 right-3 w-6 h-6 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full flex items-center justify-center">
                     <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 )}
                 <span className="text-2xl">{t.emoji}</span>
-                <h4 className={`font-bold text-lg mt-2 ${isSelected ? 'text-blue-800' : 'text-gray-800'}`}>
+                <h4 className={`font-bold text-lg mt-2 ${isSelected ? 'text-fuchsia-800' : 'text-gray-800'}`}>
                   {t.label}
                 </h4>
-                <p className={`text-xl font-extrabold mt-1 ${isSelected ? 'text-blue-600' : 'text-gray-900'}`}>
+                <p className={`text-xl font-extrabold mt-1 ${isSelected ? 'text-fuchsia-600' : 'text-gray-900'}`}>
                   {t.priceRange}
                 </p>
                 <p className="text-sm text-gray-500 mt-2 leading-relaxed">{t.description}</p>
@@ -162,8 +162,8 @@ export default function PreferencesView({ state, onBack, onContinue }: Preferenc
         </button>
         <button
           onClick={handleContinue}
-          className="px-8 py-3.5 bg-blue-600 text-white text-lg font-semibold rounded-2xl
-                     hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-200"
+          className="px-8 py-3.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-lg font-semibold rounded-2xl
+                     hover:from-violet-700 hover:to-fuchsia-600 active:scale-[0.98] transition-all shadow-lg shadow-purple-200"
         >
           Build my shopping cart &rarr;
         </button>
@@ -183,7 +183,7 @@ interface CategoryCardProps {
 
 function CategoryCard({ room, itemCount, value, onChange }: CategoryCardProps) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
+    <div className="rounded-2xl border border-purple-100 bg-white/80 p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
       {/* Room Info */}
       <div className="flex items-center gap-3 sm:w-52 flex-shrink-0">
         <span className="text-2xl">{room.emoji}</span>
@@ -195,7 +195,7 @@ function CategoryCard({ room, itemCount, value, onChange }: CategoryCardProps) {
 
       {/* 3-way Toggle */}
       <div className="flex-1">
-        <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
+        <div className="flex bg-purple-50 rounded-xl p-1 gap-1">
           {CONDITION_OPTIONS.map((opt) => {
             const isActive = value === opt.value;
             return (
@@ -204,7 +204,7 @@ function CategoryCard({ room, itemCount, value, onChange }: CategoryCardProps) {
                 onClick={() => onChange(opt.value)}
                 className={`flex-1 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200
                   ${isActive
-                    ? 'bg-white text-blue-700 shadow-sm'
+                    ? 'bg-white text-fuchsia-700 shadow-sm'
                     : 'text-gray-500 hover:text-gray-700'
                   }`}
               >

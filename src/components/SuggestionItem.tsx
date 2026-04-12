@@ -10,7 +10,7 @@ interface SuggestionItemProps {
 export default function SuggestionItem({ item, index }: SuggestionItemProps) {
   return (
     <div
-      className="flex items-start gap-3 p-3 rounded-xl bg-white border border-gray-100 hover:shadow-md transition-all duration-200"
+      className="flex items-start gap-3 p-3 rounded-xl bg-white/80 border border-purple-100 hover:shadow-md hover:shadow-purple-100 transition-all duration-200"
       style={{ animationDelay: `${index * 80}ms` }}
     >
       <span className="text-2xl flex-shrink-0 mt-0.5">{item.emoji}</span>
@@ -19,8 +19,8 @@ export default function SuggestionItem({ item, index }: SuggestionItemProps) {
           <h4 className="font-semibold text-gray-800">{item.name}</h4>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
             item.priority === 'essential'
-              ? 'bg-orange-100 text-orange-700'
-              : 'bg-blue-100 text-blue-600'
+              ? 'bg-gradient-to-r from-pink-100 to-fuchsia-100 text-fuchsia-700'
+              : 'bg-violet-100 text-violet-600'
           }`}>
             {item.priority === 'essential' ? 'Essential' : 'Nice to have'}
           </span>

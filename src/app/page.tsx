@@ -62,13 +62,15 @@ export default function Home() {
   return (
     <main className="flex-1">
       {/* Header */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white">
-        <div className="max-w-5xl mx-auto px-4 py-10 sm:py-14">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+      <div className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(56,189,248,0.2),transparent_40%)]" />
+        <div className="relative max-w-5xl mx-auto px-4 py-10 sm:py-14">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight drop-shadow-sm">
             FurnishMe
           </h1>
-          <p className="mt-3 text-blue-100 text-lg sm:text-xl max-w-2xl">
-            Just moved into an empty apartment? Upload photos of your rooms and
+          <p className="mt-3 text-white/80 text-lg sm:text-xl max-w-2xl">
+            Just moved into an empty apartment? Upload videos and photos of your rooms and
             we&apos;ll tell you exactly what you need to make it feel like home.
           </p>
         </div>
@@ -76,15 +78,15 @@ export default function Home() {
 
       {/* Step Indicator */}
       {hasResults && (
-        <div className="bg-white border-b border-gray-100">
+        <div className="bg-white/60 backdrop-blur-sm border-b border-purple-100">
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-center gap-2 text-sm">
             {STEPS.map((step, i) => (
               <div key={step.key} className="flex items-center gap-2">
-                {i > 0 && <span className="text-gray-300">—</span>}
+                {i > 0 && <span className="text-purple-200">—</span>}
                 <span
                   className={`px-3 py-1 rounded-full font-medium transition-colors ${
                     currentScreen === step.key
-                      ? 'bg-blue-100 text-blue-700'
+                      ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white shadow-sm'
                       : 'text-gray-400'
                   }`}
                 >
@@ -101,12 +103,12 @@ export default function Home() {
         {currentScreen === 'upload' && (
           <div className="space-y-6 animate-fade-in-up">
             <div className="text-center space-y-2">
-              <h2 className="text-xl font-bold text-gray-800">
-                Upload photos of your rooms
+              <h2 className="text-xl font-bold gradient-text">
+                Upload videos or photos of your space
               </h2>
               <p className="text-gray-500 text-sm max-w-lg mx-auto">
                 Add a photo or video for each room to get personalized suggestions.
-                Upload at least one image to get started.
+                Upload at least one to get started.
               </p>
             </div>
 
@@ -121,8 +123,8 @@ export default function Home() {
               <button
                 onClick={handleSubmit}
                 disabled={isLoading || !hasAnyContent}
-                className="px-8 py-3.5 bg-blue-600 text-white text-lg font-semibold rounded-2xl
-                           hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-200
+                className="px-8 py-3.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-lg font-semibold rounded-2xl
+                           hover:from-violet-700 hover:to-fuchsia-600 active:scale-[0.98] transition-all shadow-lg shadow-purple-200
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
@@ -184,8 +186,8 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="text-center py-6 text-gray-400 text-xs">
-        Built for Columbia Hackathon 2026
+      <footer className="text-center py-6 text-sm">
+        <span className="gradient-text font-medium">Built for Columbia Hackathon 2026</span>
       </footer>
     </main>
   );

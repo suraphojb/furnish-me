@@ -33,8 +33,8 @@ export default function OrderConfirmationView({ order, onReset }: OrderConfirmat
     <div className="space-y-8 animate-fade-in-up max-w-3xl mx-auto">
       {/* Success Header */}
       <div className="text-center space-y-4 pt-4">
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto">
-          <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto shadow-lg shadow-emerald-200">
+          <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -44,14 +44,14 @@ export default function OrderConfirmationView({ order, onReset }: OrderConfirmat
             Your purchase agent has placed orders across {order.retailers.length} retailer{order.retailers.length !== 1 ? 's' : ''}
           </p>
         </div>
-        <div className="inline-flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-100 rounded-full px-4 py-2">
           <span className="text-xs text-gray-500 font-medium">Order Ref</span>
           <span className="text-sm font-bold text-gray-800 font-mono">{order.orderRef}</span>
         </div>
       </div>
 
       {/* Delivery Progress */}
-      <div className="rounded-2xl bg-white border border-gray-200 p-6">
+      <div className="rounded-2xl bg-white/80 border border-purple-100 p-6">
         <h3 className="font-semibold text-gray-700 mb-4">Delivery Progress</h3>
         <div className="flex items-center justify-between relative">
           {/* Progress line */}
@@ -82,8 +82,8 @@ export default function OrderConfirmationView({ order, onReset }: OrderConfirmat
       </div>
 
       {/* Items Ordered */}
-      <div className="rounded-2xl bg-white border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
+      <div className="rounded-2xl bg-white/80 border border-purple-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-purple-50">
           <h3 className="font-semibold text-gray-700">Items Ordered ({order.items.length})</h3>
         </div>
         <div className="divide-y divide-gray-100">
@@ -133,7 +133,7 @@ export default function OrderConfirmationView({ order, onReset }: OrderConfirmat
       </div>
 
       {/* Order Summary */}
-      <div className="rounded-2xl bg-white border border-gray-200 p-6 space-y-3">
+      <div className="rounded-2xl bg-white/80 border border-purple-100 p-6 space-y-3">
         <h3 className="font-semibold text-gray-700 mb-4">Order Summary</h3>
         <div className="flex justify-between text-sm text-gray-600">
           <span>Subtotal</span>
@@ -169,7 +169,7 @@ export default function OrderConfirmationView({ order, onReset }: OrderConfirmat
       <div className="text-center pb-4">
         <button
           onClick={onReset}
-          className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-200"
+          className="px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold rounded-2xl hover:from-violet-700 hover:to-fuchsia-600 active:scale-[0.98] transition-all shadow-lg shadow-purple-200"
         >
           Furnish Another Apartment
         </button>

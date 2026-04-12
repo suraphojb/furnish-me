@@ -142,12 +142,17 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset, 
 
   const selectedCount = items.filter(i => i.products.length > 0).length;
 
-  // Group items by room for display
+  // Group items by room for display, sorted by selected product price descending
   const itemsByRoom = roomsWithResults.map(room => ({
     room,
     items: items
       .map((item, idx) => ({ ...item, globalIndex: idx }))
-      .filter(item => item.roomId === room.id),
+      .filter(item => item.roomId === room.id)
+      .sort((a, b) => {
+        const priceA = a.products.length > 0 ? (a.products[a.selectedIndex]?.price || 0) : 0;
+        const priceB = b.products.length > 0 ? (b.products[b.selectedIndex]?.price || 0) : 0;
+        return priceB - priceA;
+      }),
   })).filter(group => group.items.length > 0);
 
   return (
@@ -178,20 +183,20 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset, 
 
       {/* Loading State */}
       {loading && (
-        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-6">
+        <div className="rounded-2xl bg-fuchsia-50 border border-fuchsia-100 p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-6 h-6 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-blue-800 font-medium">
+            <div className="w-6 h-6 border-3 border-fuchsia-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-fuchsia-800 font-medium">
               Finding the best deals for you...
             </p>
           </div>
-          <div className="w-full bg-blue-200 rounded-full h-2">
+          <div className="w-full bg-fuchsia-200 rounded-full h-2">
             <div
-              className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-2 rounded-full transition-all duration-500"
               style={{ width: `${loadingProgress.total > 0 ? (loadingProgress.done / loadingProgress.total) * 100 : 0}%` }}
             />
           </div>
-          <p className="text-xs text-blue-600 mt-2">
+          <p className="text-xs text-fuchsia-600 mt-2">
             {loadingProgress.done} of {loadingProgress.total} items found
           </p>
         </div>
@@ -204,7 +209,7 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset, 
           <div className="flex items-center gap-3 pt-2">
             <span className="text-2xl">{room.emoji}</span>
             <h3 className="font-bold text-lg text-gray-800">{room.label}</h3>
-            <div className="flex-1 h-px bg-gray-200" />
+            <div className="flex-1 h-px bg-gradient-to-r from-purple-200 to-transparent" />
           </div>
 
           {/* Items in this room */}
@@ -235,7 +240,7 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset, 
                     ))}
                   </div>
                   {/* Scroll hint gradient */}
-                  <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-gray-50/90 to-transparent pointer-events-none" />
+                  <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-[#faf8ff]/90 to-transparent pointer-events-none" />
                 </div>
               ) : (
                 <div className="rounded-xl bg-gray-50 border border-gray-200 p-4 text-center text-sm text-gray-400">
@@ -249,11 +254,11 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset, 
 
       {/* Cart Summary */}
       {!loading && items.length > 0 && (
-        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 shadow-lg">
+        <div className="rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 text-white p-6 shadow-lg">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <p className="text-sm font-medium text-blue-100">Cart Total</p>
-              <p className="text-xs text-blue-200 mt-0.5">
+              <p className="text-sm font-medium text-white/80">Cart Total</p>
+              <p className="text-xs text-white/60 mt-0.5">
                 {selectedCount} item{selectedCount !== 1 ? 's' : ''} selected across {itemsByRoom.length} room{itemsByRoom.length !== 1 ? 's' : ''}
               </p>
             </div>
@@ -263,7 +268,7 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset, 
           </div>
           <button
             onClick={() => onPlaceOrder(generateMockOrder(items))}
-            className="mt-4 w-full py-3.5 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 active:scale-[0.98] transition-all text-lg"
+            className="mt-4 w-full py-3.5 bg-white text-fuchsia-700 font-bold rounded-xl hover:bg-fuchsia-50 active:scale-[0.98] transition-all text-lg"
           >
             Place Order
           </button>

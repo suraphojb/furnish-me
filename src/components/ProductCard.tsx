@@ -47,20 +47,20 @@ export default function ProductCard({ product, isSelected, onSelect }: ProductCa
   return (
     <button
       onClick={onSelect}
-      className={`text-left rounded-2xl border-2 bg-white overflow-hidden transition-all duration-200 hover:shadow-md
+      className={`text-left rounded-2xl border-2 bg-white/80 overflow-hidden transition-all duration-200 hover:shadow-md
         w-48 sm:w-52 flex-shrink-0 snap-start
         ${isSelected
-          ? 'border-blue-500 shadow-md shadow-blue-100 ring-1 ring-blue-200'
-          : 'border-gray-200 hover:border-gray-300'
+          ? 'border-fuchsia-400 shadow-md shadow-fuchsia-100 ring-1 ring-fuchsia-200'
+          : 'border-purple-100 hover:border-purple-300'
         }`}
     >
       {/* Placeholder Image */}
-      <div className="relative w-full h-32 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+      <div className="relative w-full h-32 bg-gradient-to-br from-violet-50 to-fuchsia-50 flex items-center justify-center">
         <span className="text-4xl opacity-60">
           {product.condition === 'used' ? '♻️' : product.condition === 'refurbished' ? '🔧' : '📦'}
         </span>
         {isSelected && (
-          <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
@@ -68,7 +68,7 @@ export default function ProductCard({ product, isSelected, onSelect }: ProductCa
           </div>
         )}
         {product.isTopPick && !isSelected && (
-          <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
             Top Pick
           </div>
         )}

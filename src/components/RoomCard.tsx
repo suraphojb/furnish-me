@@ -74,8 +74,8 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
 
   return (
     <div className={`relative rounded-2xl border-2 transition-all duration-300 overflow-hidden
-      ${isDragging ? 'border-blue-400 bg-blue-50 scale-[1.02]' : ''}
-      ${hasImage ? 'border-green-300 bg-green-50/50' : 'border-dashed border-gray-300 bg-white hover:border-gray-400'}
+      ${isDragging ? 'border-violet-400 bg-violet-50 scale-[1.02]' : ''}
+      ${hasImage ? 'border-fuchsia-300 bg-fuchsia-50/30' : 'border-dashed border-purple-200 bg-white/70 hover:border-purple-400'}
       ${roomState.loading ? 'animate-pulse' : ''}
       ${disabled ? 'opacity-60 pointer-events-none' : ''}
     `}>
@@ -84,7 +84,7 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
         <span className="text-2xl">{room.emoji}</span>
         <h3 className="font-semibold text-gray-800">{room.label}</h3>
         {hasImage && (
-          <span className="ml-auto text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+          <span className="ml-auto text-xs bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white px-2 py-0.5 rounded-full font-medium">
             Photo added
           </span>
         )}
@@ -116,18 +116,18 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
         ) : (
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="w-full h-40 rounded-lg border-2 border-dashed border-gray-200 hover:border-blue-300
+            className="w-full h-40 rounded-lg border-2 border-dashed border-purple-200 hover:border-fuchsia-400
                        flex flex-col items-center justify-center gap-2 transition-colors cursor-pointer
-                       hover:bg-blue-50/50"
+                       hover:bg-fuchsia-50/50"
           >
-            <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-8 h-8 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M12 16v-8m0 0l-3 3m3-3l3 3M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
             </svg>
-            <span className="text-sm text-gray-500">
-              Drop a photo or <span className="text-blue-500 font-medium">browse</span>
+            <span className="text-sm text-gray-500 text-center px-2">
+              Take a video/photo or drop a video/photo
             </span>
-            <span className="text-xs text-gray-400">JPG, PNG, WebP</span>
+            <span className="text-xs text-gray-400">JPG, PNG, WebP, MP4</span>
           </button>
         )}
       </div>
@@ -148,7 +148,7 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
       {roomState.loading && (
         <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-2xl">
           <div className="flex flex-col items-center gap-2">
-            <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-3 border-fuchsia-500 border-t-transparent rounded-full animate-spin" />
             <span className="text-sm text-gray-600 font-medium">Analyzing...</span>
           </div>
         </div>

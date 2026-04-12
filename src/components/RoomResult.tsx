@@ -36,7 +36,7 @@ export default function RoomResult({ room, roomState }: RoomResultProps) {
   const totalRange = getRoomTotal(roomState);
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+    <div className="rounded-2xl border border-purple-100 bg-white/80 overflow-hidden shadow-sm">
       {/* Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -45,7 +45,7 @@ export default function RoomResult({ room, roomState }: RoomResultProps) {
         <span className="text-2xl">{room.emoji}</span>
         <h3 className="font-bold text-lg text-gray-800">{room.label}</h3>
         {isPersonalized ? (
-          <span className="text-xs bg-purple-100 text-purple-700 px-2.5 py-0.5 rounded-full font-medium">
+          <span className="text-xs bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white px-2.5 py-0.5 rounded-full font-medium">
             AI Personalized
           </span>
         ) : (

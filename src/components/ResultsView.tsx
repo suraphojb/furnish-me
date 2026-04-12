@@ -54,7 +54,7 @@ export default function ResultsView({ state, onReset, onContinue }: ResultsViewP
           </button>
           <button
             onClick={onReset}
-            className="px-4 py-2 text-sm font-medium rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 text-sm font-medium rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:from-violet-600 hover:to-fuchsia-600 transition-colors"
           >
             Start Over
           </button>
@@ -69,10 +69,10 @@ export default function ResultsView({ state, onReset, onContinue }: ResultsViewP
       </div>
 
       {/* Grand Total */}
-      <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5 shadow-lg flex items-center justify-between">
+      <div className="rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 text-white p-5 shadow-lg flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-blue-100">Estimated Total Cost</p>
-          <p className="text-xs text-blue-200 mt-0.5">{roomsWithResults.length} room{roomsWithResults.length !== 1 ? 's' : ''} analyzed</p>
+          <p className="text-sm font-medium text-white/80">Estimated Total Cost</p>
+          <p className="text-xs text-white/60 mt-0.5">{roomsWithResults.length} room{roomsWithResults.length !== 1 ? 's' : ''} analyzed</p>
         </div>
         <p className="text-2xl font-extrabold">
           ${grandTotal.low.toLocaleString()} – ${grandTotal.high.toLocaleString()}
@@ -83,8 +83,8 @@ export default function ResultsView({ state, onReset, onContinue }: ResultsViewP
       <div className="flex justify-center pt-2">
         <button
           onClick={onContinue}
-          className="px-8 py-3.5 bg-blue-600 text-white text-lg font-semibold rounded-2xl
-                     hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-200"
+          className="px-8 py-3.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-lg font-semibold rounded-2xl
+                     hover:from-violet-700 hover:to-fuchsia-600 active:scale-[0.98] transition-all shadow-lg shadow-purple-200"
         >
           Set Preferences & Budget &rarr;
         </button>
