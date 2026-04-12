@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   RoomType,
   RoomState,
@@ -12,11 +12,15 @@ import {
   ProductCategory,
   PRODUCT_CATEGORIES,
   ProductCategoryConfig,
-  Suggestion,
+  getCategoryDefaultsForTier,
 } from '@/lib/types';
 
 interface PreferencesViewProps {
   state: Record<RoomType, RoomState>;
+  tier: BudgetTier;
+  catPrefs: Record<ProductCategory, ConditionPreference>;
+  onTierChange: (tier: BudgetTier) => void;
+  onCatPrefsChange: (prefs: Record<ProductCategory, ConditionPreference>) => void;
   onBack: () => void;
   onContinue: (preferences: PreferencesState) => void;
 }
@@ -39,32 +43,6 @@ function classifySuggestion(name: string): ProductCategory {
   return 'furniture'; // default
 }
 
-// Smart defaults per product category
-const BASE_CATEGORY_DEFAULTS: Record<ProductCategory, ConditionPreference> = {
-  'furniture': 'open-to-2nd-hand',
-  'kitchen-supplies': 'new-only',
-  'bathroom-essentials': 'new-only',
-  'lighting-decor': 'open-to-2nd-hand',
-  'storage-organisation': 'open-to-2nd-hand',
-  'study-electronics': 'new-only',
-};
-
-function getCategoryDefaultsForTier(tier: BudgetTier): Record<ProductCategory, ConditionPreference> {
-  const defaults = { ...BASE_CATEGORY_DEFAULTS };
-  if (tier === 'essentials') {
-    for (const key of Object.keys(defaults) as ProductCategory[]) {
-      if (defaults[key] === 'new-only') defaults[key] = 'open-to-2nd-hand';
-      else if (defaults[key] === 'open-to-2nd-hand') defaults[key] = 'prefer-2nd-hand';
-    }
-  } else if (tier === 'full-setup') {
-    for (const key of Object.keys(defaults) as ProductCategory[]) {
-      if (defaults[key] === 'prefer-2nd-hand') defaults[key] = 'open-to-2nd-hand';
-      else if (defaults[key] === 'open-to-2nd-hand') defaults[key] = 'new-only';
-    }
-  }
-  return defaults;
-}
-
 // Derive room-level condition from the dominant category in that room's suggestions
 function deriveRoomCategories(
   state: Record<RoomType, RoomState>,
@@ -77,7 +55,6 @@ function deriveRoomCategories(
       result[room.id] = 'open-to-2nd-hand';
       continue;
     }
-    // Find the most common product category in this room
     const catCounts: Record<string, number> = {};
     for (const s of suggestions) {
       const cat = classifySuggestion(s.name);
@@ -89,11 +66,7 @@ function deriveRoomCategories(
   return result as Record<RoomType, ConditionPreference>;
 }
 
-export default function PreferencesView({ state, onBack, onContinue }: PreferencesViewProps) {
-  const [tier, setTier] = useState<BudgetTier>('comfortable');
-  const [catPrefs, setCatPrefs] = useState<Record<ProductCategory, ConditionPreference>>(
-    () => getCategoryDefaultsForTier('comfortable')
-  );
+export default function PreferencesView({ state, tier, catPrefs, onTierChange, onCatPrefsChange, onBack, onContinue }: PreferencesViewProps) {
   const [userOverrides, setUserOverrides] = useState<Set<ProductCategory>>(new Set());
 
   // Count items per product category across all rooms
@@ -116,24 +89,16 @@ export default function PreferencesView({ state, onBack, onContinue }: Preferenc
   // Only show categories that have items
   const activeCategories = PRODUCT_CATEGORIES.filter(c => categoryCounts[c.id] > 0);
 
-  // When tier changes, update non-overridden category prefs
-  useEffect(() => {
-    const newDefaults = getCategoryDefaultsForTier(tier);
-    setCatPrefs(prev => {
-      const updated = { ...prev };
-      for (const key of Object.keys(updated) as ProductCategory[]) {
-        if (!userOverrides.has(key)) {
-          updated[key] = newDefaults[key];
-        }
-      }
-      return updated;
-    });
-  }, [tier, userOverrides]);
+  const handleTierChange = useCallback((newTier: BudgetTier) => {
+    onTierChange(newTier);
+    setUserOverrides(new Set());
+    onCatPrefsChange(getCategoryDefaultsForTier(newTier));
+  }, [onTierChange, onCatPrefsChange]);
 
   const handleCatChange = useCallback((catId: ProductCategory, value: ConditionPreference) => {
-    setCatPrefs(prev => ({ ...prev, [catId]: value }));
+    onCatPrefsChange({ ...catPrefs, [catId]: value });
     setUserOverrides(prev => new Set(prev).add(catId));
-  }, []);
+  }, [catPrefs, onCatPrefsChange]);
 
   const handleContinue = () => {
     const roomCategories = deriveRoomCategories(state, catPrefs);
@@ -159,10 +124,7 @@ export default function PreferencesView({ state, onBack, onContinue }: Preferenc
             return (
               <button
                 key={t.id}
-                onClick={() => {
-                  setTier(t.id);
-                  setUserOverrides(new Set());
-                }}
+                onClick={() => handleTierChange(t.id)}
                 className={`relative p-5 rounded-2xl border-2 text-left transition-all duration-200
                   ${isSelected
                     ? 'border-fuchsia-400 bg-fuchsia-50/50 shadow-md shadow-fuchsia-100 scale-[1.02]'

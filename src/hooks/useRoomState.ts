@@ -12,6 +12,8 @@ type Action =
   | { type: 'SET_RESULTS'; roomId: RoomType; suggestions: RoomState['suggestions']; detectedItems?: string[] }
   | { type: 'SET_ERROR'; roomId: RoomType; error: string }
   | { type: 'REMOVE_SUGGESTION'; roomId: RoomType; suggestionIndex: number }
+  | { type: 'REMOVE_BY_PRIORITY'; priority: 'essential' | 'nice-to-have' }
+  | { type: 'REMOVE_BY_NAME'; name: string }
   | { type: 'RESET' };
 
 const initialRoomState: RoomState = {
@@ -83,6 +85,27 @@ function reducer(state: AppState, action: Action): AppState {
         ...state,
         [action.roomId]: { ...room, suggestions: updated.length > 0 ? updated : null },
       };
+    }
+    case 'REMOVE_BY_PRIORITY': {
+      const newState = { ...state };
+      for (const room of ROOMS) {
+        const s = newState[room.id];
+        if (!s.suggestions) continue;
+        const filtered = s.suggestions.filter(sg => sg.priority !== action.priority);
+        newState[room.id] = { ...s, suggestions: filtered.length > 0 ? filtered : null };
+      }
+      return newState;
+    }
+    case 'REMOVE_BY_NAME': {
+      const lower = action.name.toLowerCase();
+      const newState = { ...state };
+      for (const room of ROOMS) {
+        const s = newState[room.id];
+        if (!s.suggestions) continue;
+        const filtered = s.suggestions.filter(sg => !sg.name.toLowerCase().includes(lower));
+        newState[room.id] = { ...s, suggestions: filtered.length > 0 ? filtered : null };
+      }
+      return newState;
     }
     case 'RESET':
       return createInitialState();
@@ -158,11 +181,21 @@ export function useRoomState() {
     dispatch({ type: 'REMOVE_SUGGESTION', roomId, suggestionIndex });
   }, []);
 
+  const removeSuggestionsByPriority = useCallback((priority: 'essential' | 'nice-to-have') => {
+    dispatch({ type: 'REMOVE_BY_PRIORITY', priority });
+  }, []);
+
+  const removeSuggestionByName = useCallback((name: string) => {
+    dispatch({ type: 'REMOVE_BY_NAME', name });
+  }, []);
+
   return {
     state,
     setImage,
     removeImage,
     removeSuggestion,
+    removeSuggestionsByPriority,
+    removeSuggestionByName,
     analyzeAllRooms,
     reset,
     hasAnyContent,

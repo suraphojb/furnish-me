@@ -5,28 +5,28 @@ const CATEGORIES = [
     id: 'market',
     title: 'Second-Hand Market',
     description: 'Buy and sell within your student community',
-    gradient: 'from-amber-400 via-orange-500 to-red-500',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600',
     icon: '🛍️',
   },
   {
     id: 'sublets',
     title: 'Sublets & Short Stays',
     description: 'Find or offer short-term housing near campus',
-    gradient: 'from-blue-400 via-indigo-500 to-violet-600',
+    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600',
     icon: '🏠',
   },
   {
     id: 'local',
     title: 'Local Recommendations',
     description: 'Best spots for food, coffee, groceries, and more',
-    gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
+    image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600',
     icon: '📍',
   },
   {
     id: 'happy-hours',
     title: 'Happy Hours',
     description: "Find out who's hosting and join the fun",
-    gradient: 'from-pink-400 via-fuchsia-500 to-purple-600',
+    image: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=600',
     icon: '🎉',
   },
 ];
@@ -82,11 +82,15 @@ export default function CommunityView({ onClose }: CommunityViewProps) {
         {CATEGORIES.map((cat) => (
           <button
             key={cat.id}
-            className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${cat.gradient} p-0 aspect-[4/3] text-left group transition-all duration-200 hover:scale-[1.02] hover:shadow-lg shadow-md`}
+            className="relative overflow-hidden rounded-2xl p-0 aspect-[4/3] text-left group transition-all duration-200 hover:scale-[1.02] hover:shadow-lg shadow-md"
+            style={{
+              backgroundImage: `url(${cat.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           >
-            {/* Subtle texture overlay */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.2),transparent_50%)]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+            {/* Dark gradient overlay for text legibility */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/60" />
 
             {/* Large icon */}
             <div className="absolute top-4 right-4 text-4xl opacity-30 group-hover:opacity-50 transition-opacity">

@@ -104,6 +104,32 @@ export interface PreferencesState {
   categoryPreferences: Record<ProductCategory, ConditionPreference>;
 }
 
+// Smart defaults per product category
+export const BASE_CATEGORY_DEFAULTS: Record<ProductCategory, ConditionPreference> = {
+  'furniture': 'open-to-2nd-hand',
+  'kitchen-supplies': 'new-only',
+  'bathroom-essentials': 'new-only',
+  'lighting-decor': 'open-to-2nd-hand',
+  'storage-organisation': 'open-to-2nd-hand',
+  'study-electronics': 'new-only',
+};
+
+export function getCategoryDefaultsForTier(tier: BudgetTier): Record<ProductCategory, ConditionPreference> {
+  const defaults = { ...BASE_CATEGORY_DEFAULTS };
+  if (tier === 'essentials') {
+    for (const key of Object.keys(defaults) as ProductCategory[]) {
+      if (defaults[key] === 'new-only') defaults[key] = 'open-to-2nd-hand';
+      else if (defaults[key] === 'open-to-2nd-hand') defaults[key] = 'prefer-2nd-hand';
+    }
+  } else if (tier === 'full-setup') {
+    for (const key of Object.keys(defaults) as ProductCategory[]) {
+      if (defaults[key] === 'prefer-2nd-hand') defaults[key] = 'open-to-2nd-hand';
+      else if (defaults[key] === 'open-to-2nd-hand') defaults[key] = 'new-only';
+    }
+  }
+  return defaults;
+}
+
 // Screen 4: Product Listings
 export interface ProductListing {
   name: string;

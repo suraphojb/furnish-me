@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRoomState } from '@/hooks/useRoomState';
-import { PreferencesState, OrderConfirmation } from '@/lib/types';
+import { PreferencesState, OrderConfirmation, BudgetTier, ProductCategory, ConditionPreference, getCategoryDefaultsForTier } from '@/lib/types';
 import RoomGrid from '@/components/RoomGrid';
 import ResultsView from '@/components/ResultsView';
 import PreferencesView from '@/components/PreferencesView';
@@ -10,6 +10,7 @@ import ShoppingCartView from '@/components/ShoppingCartView';
 import OrderConfirmationView from '@/components/OrderConfirmationView';
 import ReplenishmentView from '@/components/ReplenishmentView';
 import CommunityView from '@/components/CommunityView';
+import AIChatBubble from '@/components/AIChatBubble';
 
 type Screen = 'upload' | 'results' | 'preferences' | 'cart' | 'confirmation' | 'replenishment' | 'community';
 
@@ -28,6 +29,8 @@ export default function Home() {
     setImage,
     removeImage,
     removeSuggestion,
+    removeSuggestionsByPriority,
+    removeSuggestionByName,
     analyzeAllRooms,
     reset,
     hasAnyContent,
@@ -40,6 +43,12 @@ export default function Home() {
   const [order, setOrder] = useState<OrderConfirmation | null>(null);
   const [prevScreen, setPrevScreen] = useState<Screen>('upload');
 
+  // Lifted preferences state for AI chat access
+  const [tier, setTier] = useState<BudgetTier>('comfortable');
+  const [catPrefs, setCatPrefs] = useState<Record<ProductCategory, ConditionPreference>>(
+    () => getCategoryDefaultsForTier('comfortable')
+  );
+
   const handleSubmit = async () => {
     await analyzeAllRooms();
     setScreen('results');
@@ -49,6 +58,8 @@ export default function Home() {
     reset();
     setPreferences(null);
     setOrder(null);
+    setTier('comfortable');
+    setCatPrefs(getCategoryDefaultsForTier('comfortable'));
     setScreen('upload');
   };
 
@@ -172,6 +183,10 @@ export default function Home() {
           <div className="animate-fade-in-up">
             <PreferencesView
               state={state}
+              tier={tier}
+              catPrefs={catPrefs}
+              onTierChange={setTier}
+              onCatPrefsChange={setCatPrefs}
               onBack={() => setScreen('results')}
               onContinue={handleBuildCart}
             />
@@ -223,18 +238,31 @@ export default function Home() {
         <span className="gradient-text font-medium">Built for Columbia Hackathon 2026</span>
       </footer>
 
-      {/* Floating Community Bubble */}
+      {/* Floating Community Bubble — moved up to make room for AI bubble */}
       {currentScreen !== 'community' && (
         <button
           onClick={openCommunity}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500 text-white shadow-lg shadow-purple-300/50 flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
+          className="fixed bottom-24 right-6 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-300/40 flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
           title="Community"
         >
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
           </svg>
         </button>
       )}
+
+      {/* AI Chat Bubble */}
+      <AIChatBubble
+        currentScreen={currentScreen}
+        state={state}
+        tier={tier}
+        catPrefs={catPrefs}
+        onRemoveByPriority={removeSuggestionsByPriority}
+        onRemoveByName={removeSuggestionByName}
+        onSetTier={setTier}
+        onSetCatPrefs={setCatPrefs}
+        onNavigate={(s) => setScreen(s as Screen)}
+      />
     </main>
   );
 }
