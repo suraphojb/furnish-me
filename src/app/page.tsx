@@ -71,7 +71,7 @@ export default function Home() {
     setScreen(prevScreen);
   };
 
-  const currentScreen = !hasResults ? 'upload' : screen;
+  const currentScreen = screen === 'community' ? 'community' : (!hasResults ? 'upload' : screen);
   const showStepIndicator = hasResults && currentScreen !== 'community';
 
   return (
