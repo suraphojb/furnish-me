@@ -80,11 +80,14 @@ export default function RoomResult({ room, roomState, onRemoveSuggestion }: Room
             </div>
           )}
 
-          {/* Suggestions — sorted by price descending */}
+          {/* Suggestions — essential first, then nice-to-have, each group by price desc */}
           <div className="space-y-2">
             {roomState.suggestions
               .map((suggestion, originalIndex) => ({ suggestion, originalIndex }))
               .sort((a, b) => {
+                const priorityOrder = { essential: 0, 'nice-to-have': 1 };
+                const pDiff = (priorityOrder[a.suggestion.priority] ?? 1) - (priorityOrder[b.suggestion.priority] ?? 1);
+                if (pDiff !== 0) return pDiff;
                 const priceA = parsePriceRange(a.suggestion.estimatedPrice).high;
                 const priceB = parsePriceRange(b.suggestion.estimatedPrice).high;
                 return priceB - priceA;
