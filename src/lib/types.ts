@@ -132,3 +132,24 @@ export interface OrderConfirmation {
   total: number;
   retailers: string[];
 }
+
+// Screen 6: Replenishment
+export interface ReplenishmentItem {
+  id: string;
+  name: string;
+  emoji: string;
+  category: 'consumable' | 'perishable' | 'durable';
+  currentSource: string;
+  currentPrice: number;
+  quantity: number;
+  lastPurchased: string;
+  nextReplenishment: string;
+  daysUntilNeeded: number;
+  shelfLife: 'short' | 'medium' | 'long';
+  promo: {
+    retailer: string;
+    discount: string;
+    newPrice: number;
+  } | null;
+  aiNote: string | null;
+}

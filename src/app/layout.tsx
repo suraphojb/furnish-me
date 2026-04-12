@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FurnishMe - Your Apartment Furnishing Advisor",
+  title: "NestIn - Settle in, sorted.",
   description: "Upload room photos and get personalized furniture suggestions for your new apartment",
 };
 

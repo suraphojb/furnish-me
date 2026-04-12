@@ -80,9 +80,9 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
       ${disabled ? 'opacity-60 pointer-events-none' : ''}
     `}>
       {/* Room Header */}
-      <div className="flex items-center gap-2 px-4 pt-4 pb-2">
-        <span className="text-2xl">{room.emoji}</span>
-        <h3 className="font-semibold text-gray-800">{room.label}</h3>
+      <div className="flex items-center gap-2 px-3 pt-3 pb-1">
+        <span className="text-xl">{room.emoji}</span>
+        <h3 className="font-semibold text-gray-800 text-sm">{room.label}</h3>
         {hasImage && (
           <span className="ml-auto text-xs bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white px-2 py-0.5 rounded-full font-medium">
             Photo added
@@ -92,7 +92,7 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
 
       {/* Upload Area / Preview */}
       <div
-        className="px-4 pb-4"
+        className="px-3 pb-3"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -102,7 +102,7 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
             <img
               src={roomState.image!}
               alt={`${room.label} preview`}
-              className="w-full h-40 object-cover rounded-lg"
+              className="w-full h-28 object-cover rounded-lg"
             />
             <button
               onClick={() => onImageRemove()}
@@ -116,11 +116,11 @@ export default function RoomCard({ room, roomState, onImageSet, onImageRemove, d
         ) : (
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="w-full h-40 rounded-lg border-2 border-dashed border-purple-200 hover:border-fuchsia-400
-                       flex flex-col items-center justify-center gap-2 transition-colors cursor-pointer
+            className="w-full h-28 rounded-lg border-2 border-dashed border-purple-200 hover:border-fuchsia-400
+                       flex flex-col items-center justify-center gap-1.5 transition-colors cursor-pointer
                        hover:bg-fuchsia-50/50"
           >
-            <svg className="w-8 h-8 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-6 h-6 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M12 16v-8m0 0l-3 3m3-3l3 3M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
             </svg>

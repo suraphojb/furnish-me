@@ -5,6 +5,7 @@ import { OrderConfirmation } from '@/lib/types';
 interface OrderConfirmationViewProps {
   order: OrderConfirmation;
   onReset: () => void;
+  onViewReplenishment: () => void;
 }
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -28,7 +29,7 @@ function getSourceColor(source: string): string {
 
 const DELIVERY_STEPS = ['Ordered', 'Processing', 'Shipped', 'Delivered'];
 
-export default function OrderConfirmationView({ order, onReset }: OrderConfirmationViewProps) {
+export default function OrderConfirmationView({ order, onReset, onViewReplenishment }: OrderConfirmationViewProps) {
   return (
     <div className="space-y-8 animate-fade-in-up max-w-3xl mx-auto">
       {/* Success Header */}
@@ -165,13 +166,19 @@ export default function OrderConfirmationView({ order, onReset }: OrderConfirmat
         </div>
       </div>
 
-      {/* Start Over */}
-      <div className="text-center pb-4">
+      {/* Actions */}
+      <div className="flex flex-col items-center gap-3 pb-4">
         <button
-          onClick={onReset}
+          onClick={onViewReplenishment}
           className="px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold rounded-2xl hover:from-violet-700 hover:to-fuchsia-600 active:scale-[0.98] transition-all shadow-lg shadow-purple-200"
         >
-          Furnish Another Apartment
+          View replenishment schedule &rarr;
+        </button>
+        <button
+          onClick={onReset}
+          className="text-sm text-gray-400 hover:text-gray-600 transition-colors font-medium"
+        >
+          Start fresh
         </button>
       </div>
     </div>
