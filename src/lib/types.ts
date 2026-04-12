@@ -80,14 +80,28 @@ export const TIERS: TierConfig[] = [
   },
 ];
 
-export interface CategoryPreference {
-  roomId: RoomType;
-  condition: ConditionPreference;
+export type ProductCategory = 'furniture' | 'kitchen-supplies' | 'bathroom-essentials' | 'lighting-decor' | 'storage-organisation' | 'study-electronics';
+
+export interface ProductCategoryConfig {
+  id: ProductCategory;
+  label: string;
+  emoji: string;
+  description: string;
 }
+
+export const PRODUCT_CATEGORIES: ProductCategoryConfig[] = [
+  { id: 'furniture', label: 'Furniture', emoji: '🪑', description: 'Bed frames, desks, chairs, shelves' },
+  { id: 'kitchen-supplies', label: 'Kitchen Supplies', emoji: '🍳', description: 'Cookware, utensils, appliances' },
+  { id: 'bathroom-essentials', label: 'Bathroom Essentials', emoji: '🛁', description: 'Towels, bath mat, organisers' },
+  { id: 'lighting-decor', label: 'Lighting & Decor', emoji: '💡', description: 'Lamps, rugs, curtains' },
+  { id: 'storage-organisation', label: 'Storage & Organisation', emoji: '📦', description: 'Bins, hangers, shelving' },
+  { id: 'study-electronics', label: 'Study & Electronics', emoji: '🖥️', description: 'Power strips, monitor stands, desk accessories' },
+];
 
 export interface PreferencesState {
   tier: BudgetTier;
   categories: Record<RoomType, ConditionPreference>;
+  categoryPreferences: Record<ProductCategory, ConditionPreference>;
 }
 
 // Screen 4: Product Listings
