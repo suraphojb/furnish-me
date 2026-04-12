@@ -41,6 +41,7 @@ Condition preference: ${conditionGuidance}
 Reference price range: ${estimatedPrice}
 
 Use REAL retailer names like Amazon, Target, Walmart, IKEA, Wayfair, CB2, West Elm, FB Market, OfferUp, Craigslist, Goodwill, Habitat ReStore, HomeGoods, Overstock, Pottery Barn.
+IMPORTANT: For Facebook Marketplace, ALWAYS use the abbreviation "FB Market" as the source name. Never write "Facebook Marketplace" or "FB Marketplace".
 
 For each product, generate a realistic but fictional product name, a plausible price, and realistic review counts. Vary the price range — include some budget and some premium options.
 
@@ -77,7 +78,10 @@ Only the first product should have "isTopPick": true. Conditions can be "new", "
     }
 
     const parsed = JSON.parse(textBlock.text);
-    const products: ProductListing[] = parsed.products;
+    const products: ProductListing[] = (parsed.products as ProductListing[]).map(p => ({
+      ...p,
+      source: p.source.replace(/Facebook Marketplace|FB Marketplace/gi, 'FB Market'),
+    }));
 
     return NextResponse.json({ products });
   } catch (error) {

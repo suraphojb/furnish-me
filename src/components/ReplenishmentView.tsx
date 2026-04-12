@@ -7,6 +7,7 @@ interface ReplenishmentViewProps {
   order: OrderConfirmation;
   onBack: () => void;
   onReset: () => void;
+  onCommunity: () => void;
 }
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -86,7 +87,7 @@ function generateMockReplenishments(order: OrderConfirmation): ReplenishmentItem
   });
 }
 
-export default function ReplenishmentView({ order, onBack, onReset }: ReplenishmentViewProps) {
+export default function ReplenishmentView({ order, onBack, onReset, onCommunity }: ReplenishmentViewProps) {
   const [items, setItems] = useState<ReplenishmentItem[]>(() => generateMockReplenishments(order));
 
   const handleRemove = (id: string) => {
@@ -300,6 +301,19 @@ export default function ReplenishmentView({ order, onBack, onReset }: Replenishm
           </button>
         </div>
       )}
+
+      {/* Community CTA */}
+      <div className="rounded-2xl bg-white/80 border border-purple-100 p-5 text-center space-y-3">
+        <p className="text-2xl">🏘️</p>
+        <h3 className="font-bold text-gray-800">You&apos;re all set up!</h3>
+        <p className="text-sm text-gray-500">Now connect with your neighbours — find deals, sublets, and local favourites.</p>
+        <button
+          onClick={onCommunity}
+          className="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold rounded-xl hover:from-violet-700 hover:to-fuchsia-600 active:scale-[0.98] transition-all shadow-md shadow-purple-200 text-sm"
+        >
+          Explore your community &rarr;
+        </button>
+      </div>
     </div>
   );
 }
