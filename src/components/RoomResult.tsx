@@ -79,9 +79,15 @@ export default function RoomResult({ room, roomState }: RoomResultProps) {
             </div>
           )}
 
-          {/* Suggestions */}
+          {/* Suggestions — sorted by price descending */}
           <div className="space-y-2">
-            {roomState.suggestions.map((suggestion, i) => (
+            {[...roomState.suggestions]
+              .sort((a, b) => {
+                const priceA = parsePriceRange(a.estimatedPrice).high;
+                const priceB = parsePriceRange(b.estimatedPrice).high;
+                return priceB - priceA;
+              })
+              .map((suggestion, i) => (
               <SuggestionItem key={i} item={suggestion} index={i} />
             ))}
           </div>

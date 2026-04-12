@@ -47,46 +47,37 @@ export default function ProductCard({ product, isSelected, onSelect }: ProductCa
   return (
     <button
       onClick={onSelect}
-      className={`relative text-left rounded-2xl border-2 bg-white overflow-hidden transition-all duration-200 hover:shadow-md
+      className={`text-left rounded-2xl border-2 bg-white overflow-hidden transition-all duration-200 hover:shadow-md
         w-48 sm:w-52 flex-shrink-0 snap-start
         ${isSelected
           ? 'border-blue-500 shadow-md shadow-blue-100 ring-1 ring-blue-200'
           : 'border-gray-200 hover:border-gray-300'
         }`}
     >
-      {/* Top Pick / Selected Badge */}
-      {isSelected && (
-        <div className="absolute top-3 right-3 z-10 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          Selected
-        </div>
-      )}
-
-      {product.isTopPick && !isSelected && (
-        <div className="absolute top-3 right-3 z-10 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
-          Top Pick
-        </div>
-      )}
-
-      {/* Product Image */}
-      <div className="w-full h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = `https://placehold.co/400x400/e2e8f0/64748b?text=${encodeURIComponent(product.name.split(' ').slice(0, 3).join('+'))}`;
-          }}
-        />
+      {/* Placeholder Image */}
+      <div className="relative w-full h-32 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+        <span className="text-4xl opacity-60">
+          {product.condition === 'used' ? '♻️' : product.condition === 'refurbished' ? '🔧' : '📦'}
+        </span>
+        {isSelected && (
+          <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Selected
+          </div>
+        )}
+        {product.isTopPick && !isSelected && (
+          <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+            Top Pick
+          </div>
+        )}
       </div>
 
       {/* Product Info */}
       <div className="p-4 space-y-2">
-        {/* Source Badge */}
-        <div className="flex items-center gap-2">
+        {/* Source & Status Badges */}
+        <div className="flex items-center gap-2 flex-wrap">
           <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${getSourceColor(product.source)}`}>
             {product.source}
           </span>
