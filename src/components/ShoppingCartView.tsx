@@ -9,6 +9,8 @@ import {
   PreferencesState,
   ItemWithProducts,
   Suggestion,
+  OrderConfirmation,
+  OrderedItem,
 } from '@/lib/types';
 import ProductCard from './ProductCard';
 
@@ -17,9 +19,46 @@ interface ShoppingCartViewProps {
   preferences: PreferencesState;
   onBack: () => void;
   onReset: () => void;
+  onPlaceOrder: (order: OrderConfirmation) => void;
 }
 
-export default function ShoppingCartView({ state, preferences, onBack, onReset }: ShoppingCartViewProps) {
+function generateMockOrder(items: ItemWithProducts[]): OrderConfirmation {
+  const orderedItems: OrderedItem[] = items
+    .filter(item => item.products.length > 0)
+    .map(item => {
+      const product = item.products[item.selectedIndex];
+      const daysOut = Math.floor(Math.random() * 7) + 3;
+      const delivery = new Date();
+      delivery.setDate(delivery.getDate() + daysOut);
+      return {
+        name: product.name,
+        emoji: item.itemEmoji,
+        price: product.price,
+        source: product.source,
+        imageUrl: product.imageUrl,
+        estimatedDelivery: delivery.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        condition: product.condition,
+      };
+    });
+
+  const subtotal = orderedItems.reduce((s, i) => s + i.price, 0);
+  const shipping = 0;
+  const tax = Math.round(subtotal * 0.08875 * 100) / 100; // NYC tax rate
+  const retailers = [...new Set(orderedItems.map(i => i.source))];
+  const ref = 'FM-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  return {
+    orderRef: ref,
+    items: orderedItems,
+    subtotal,
+    shipping,
+    tax,
+    total: Math.round((subtotal + shipping + tax) * 100) / 100,
+    retailers,
+  };
+}
+
+export default function ShoppingCartView({ state, preferences, onBack, onReset, onPlaceOrder }: ShoppingCartViewProps) {
   const [items, setItems] = useState<ItemWithProducts[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState({ done: 0, total: 0 });
@@ -222,6 +261,12 @@ export default function ShoppingCartView({ state, preferences, onBack, onReset }
               ${totalCost.toFixed(2)}
             </p>
           </div>
+          <button
+            onClick={() => onPlaceOrder(generateMockOrder(items))}
+            className="mt-4 w-full py-3.5 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 active:scale-[0.98] transition-all text-lg"
+          >
+            Place Order
+          </button>
         </div>
       )}
     </div>

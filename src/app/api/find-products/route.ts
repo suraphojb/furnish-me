@@ -40,7 +40,7 @@ Budget guidance: ${tierGuidance}
 Condition preference: ${conditionGuidance}
 Reference price range: ${estimatedPrice}
 
-Use REAL retailer names like Amazon, Target, Walmart, IKEA, Wayfair, CB2, West Elm, Facebook Marketplace, OfferUp, Craigslist, Goodwill, Habitat ReStore, HomeGoods, Overstock, Pottery Barn.
+Use REAL retailer names like Amazon, Target, Walmart, IKEA, Wayfair, CB2, West Elm, FB Market, OfferUp, Craigslist, Goodwill, Habitat ReStore, HomeGoods, Overstock, Pottery Barn.
 
 For each product, generate a realistic but fictional product name, a plausible price, and realistic review counts. Vary the price range — include some budget and some premium options.
 

@@ -2,19 +2,21 @@
 
 import { useState } from 'react';
 import { useRoomState } from '@/hooks/useRoomState';
-import { PreferencesState } from '@/lib/types';
+import { PreferencesState, OrderConfirmation } from '@/lib/types';
 import RoomGrid from '@/components/RoomGrid';
 import ResultsView from '@/components/ResultsView';
 import PreferencesView from '@/components/PreferencesView';
 import ShoppingCartView from '@/components/ShoppingCartView';
+import OrderConfirmationView from '@/components/OrderConfirmationView';
 
-type Screen = 'upload' | 'results' | 'preferences' | 'cart';
+type Screen = 'upload' | 'results' | 'preferences' | 'cart' | 'confirmation';
 
 const STEPS = [
   { key: 'upload', label: 'Upload' },
   { key: 'results', label: 'Furniture List' },
   { key: 'preferences', label: 'Preferences' },
   { key: 'cart', label: 'Shopping Cart' },
+  { key: 'confirmation', label: 'Confirmation' },
 ];
 
 export default function Home() {
@@ -31,6 +33,7 @@ export default function Home() {
 
   const [screen, setScreen] = useState<Screen>('upload');
   const [preferences, setPreferences] = useState<PreferencesState | null>(null);
+  const [order, setOrder] = useState<OrderConfirmation | null>(null);
 
   const handleSubmit = async () => {
     await analyzeAllRooms();
@@ -40,7 +43,13 @@ export default function Home() {
   const handleReset = () => {
     reset();
     setPreferences(null);
+    setOrder(null);
     setScreen('upload');
+  };
+
+  const handlePlaceOrder = (o: OrderConfirmation) => {
+    setOrder(o);
+    setScreen('confirmation');
   };
 
   const handleBuildCart = (prefs: PreferencesState) => {
@@ -158,6 +167,16 @@ export default function Home() {
               state={state}
               preferences={preferences}
               onBack={() => setScreen('preferences')}
+              onReset={handleReset}
+              onPlaceOrder={handlePlaceOrder}
+            />
+          </div>
+        )}
+
+        {currentScreen === 'confirmation' && order && (
+          <div className="animate-fade-in-up">
+            <OrderConfirmationView
+              order={order}
               onReset={handleReset}
             />
           </div>

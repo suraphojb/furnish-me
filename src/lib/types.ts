@@ -111,3 +111,24 @@ export interface ItemWithProducts {
   products: ProductListing[];
   selectedIndex: number;
 }
+
+// Screen 5: Order Confirmation
+export interface OrderedItem {
+  name: string;
+  emoji: string;
+  price: number;
+  source: string;
+  imageUrl: string;
+  estimatedDelivery: string;
+  condition: 'new' | 'used' | 'refurbished';
+}
+
+export interface OrderConfirmation {
+  orderRef: string;
+  items: OrderedItem[];
+  subtotal: number;
+  shipping: number;
+  tax: number;
+  total: number;
+  retailers: string[];
+}

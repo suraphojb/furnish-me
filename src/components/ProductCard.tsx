@@ -16,7 +16,7 @@ const SOURCE_COLORS: Record<string, string> = {
   'Wayfair': 'bg-purple-100 text-purple-700',
   'CB2': 'bg-gray-100 text-gray-700',
   'West Elm': 'bg-green-100 text-green-700',
-  'Facebook Marketplace': 'bg-blue-100 text-blue-600',
+  'FB Market': 'bg-blue-100 text-blue-600',
   'OfferUp': 'bg-teal-100 text-teal-700',
   'Craigslist': 'bg-violet-100 text-violet-700',
   'Goodwill': 'bg-sky-100 text-sky-700',
