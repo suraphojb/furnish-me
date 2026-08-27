@@ -88,7 +88,7 @@ ${context.summary}
 You can use the provided tools to make changes. Always include a brief text response confirming what you did. If the user asks something you can't do with the tools, answer conversationally.`;
 
     const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-5',
       max_tokens: 300,
       system: systemPrompt,
       messages,
